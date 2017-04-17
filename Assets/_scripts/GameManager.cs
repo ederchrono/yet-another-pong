@@ -68,21 +68,21 @@ public class GameManager : MonoBehaviour {
 		if (oldPosition.x + BALL_RADIUS <  rightPaddle.transform.position.x &&
 			newPosition.x + BALL_RADIUS >= rightPaddle.transform.position.x) {
 			// ball is going trough the right paddle
-			CheckPaddleCollision (oldPosition, newPosition, rightPaddle);
+			CheckPaddleCollision (rightPaddle);
 		}
 
 		if (oldPosition.x - BALL_RADIUS >  leftPaddle.transform.position.x &&
 			newPosition.x - BALL_RADIUS <= leftPaddle.transform.position.x) {
 			// ball is going trough the left paddle
-			CheckPaddleCollision (oldPosition, newPosition, leftPaddle);
+			CheckPaddleCollision (leftPaddle);
 		}
 
 	}
 
-	void CheckPaddleCollision(Vector3 oldPosition, Vector3 newPosition, GameObject paddle){
+	void CheckPaddleCollision(GameObject paddle){
 
 		//calculate Y position difference between ball and paddle
-		float dY = newPosition.y - paddle.transform.position.y;
+		float dY = ball.transform.position.y - paddle.transform.position.y;
 
 		if ( Mathf.Abs(dY) < PADDLE_HALF_HEIGHT+BALL_RADIUS) {
 
