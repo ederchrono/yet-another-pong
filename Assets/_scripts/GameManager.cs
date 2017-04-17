@@ -27,6 +27,16 @@ public class GameManager : MonoBehaviour {
 	private const float BALL_RADIUS  = 0.5f;
 	private const float PADDLE_HALF_HEIGHT = 1;
 
+	// Field vars
+	private const float TOP_BOUND    = 4.5f;
+	private const float BOTTOM_BOUND = -4.5f;
+	private const float LEFT_BOUND   = -9;
+	private const float RIGHT_BOUND  = 9;
+
+	// Scores vars
+	private int leftScore=0;
+	private int rightScore=0;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -77,6 +87,30 @@ public class GameManager : MonoBehaviour {
 			CheckPaddleCollision (leftPaddle);
 		}
 
+		//check bounds collisions
+		if (oldPosition.y < TOP_BOUND && 
+			newPosition.y > TOP_BOUND) {
+			ballVelY = -ballVelY;
+		}
+		if (oldPosition.y > BOTTOM_BOUND && 
+			newPosition.y < BOTTOM_BOUND) {
+			ballVelY = -ballVelY;
+		}
+
+		// check goals
+		if (ball.transform.position.x > RIGHT_BOUND) {
+			//left player goal
+			print("left player goal");
+			leftScore++;
+			UpdateScore ();
+			ResetBall ();
+		} else if (ball.transform.position.x < LEFT_BOUND) {
+			//left player goal
+			print("right player goal");
+			rightScore++;
+			UpdateScore ();
+			ResetBall ();
+		}
 	}
 
 	void CheckPaddleCollision(GameObject paddle){
@@ -98,5 +132,20 @@ public class GameManager : MonoBehaviour {
 
 		}
 
+	}
+
+	void UpdateScore(){
+		leftScoreText.text = "" + leftScore;
+		rightScoreText.text = "" + rightScore;
+	}
+
+	private void ResetBall(){
+		// center the ball & reset acummulated velocities
+		ball.transform.position = new Vector3(0, 0, 0);
+		ballVelY = 0;
+		ballVelXMultiplier = 1;
+
+		// set the ball direction to the player that scored
+		ballVelX = -ballVelX;
 	}
 }
