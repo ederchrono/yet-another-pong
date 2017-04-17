@@ -63,8 +63,22 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void UpdateAIPaddle(){
+		Vector3 paddleMovement = new Vector3();
+		// implement (stoopid & shaky) basic AI
+		if (ball.transform.position.y > leftPaddle.transform.position.y) {
+			// if ball is up, move up
+			paddleMovement.y = paddleVelY * Time.deltaTime;
 
+		} else {
+			// else move down
+			paddleMovement.y = -paddleVelY * Time.deltaTime;
+
+		}
+
+		// update AI paddle position
+		leftPaddle.transform.position += paddleMovement;
 	}
+
 	void UpdateBall(){
 		Vector3 oldPosition = ball.transform.position;
 
@@ -100,13 +114,11 @@ public class GameManager : MonoBehaviour {
 		// check goals
 		if (ball.transform.position.x > RIGHT_BOUND) {
 			//left player goal
-			print("left player goal");
 			leftScore++;
 			UpdateScore ();
 			ResetBall ();
 		} else if (ball.transform.position.x < LEFT_BOUND) {
 			//left player goal
-			print("right player goal");
 			rightScore++;
 			UpdateScore ();
 			ResetBall ();
